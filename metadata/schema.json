@@ -1,0 +1,365 @@
+{
+  "tables": [
+    {
+      "table_name": "inventory",
+      "primary_key": "inventory_id",
+      "columns": [
+        {
+          "name": "inventory_id",
+          "data_type": "INT",
+          "description": "Unique identifier for each inventory record."
+        },
+        {
+          "name": "product_id",
+          "data_type": "INT",
+          "description": "Unique identifier of the product stored in inventory."
+        },
+        {
+          "name": "warehouse_id",
+          "data_type": "INT",
+          "description": "Unique identifier of the warehouse where inventory is stored."
+        },
+        {
+          "name": "stock_quantity",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Current available inventory quantity that can be allocated to customer demand. Primary measure used for inventory reporting, stock availability analysis, inventory turnover calculations, replenishment planning, demand forecasting, and stockout prevention."
+        },
+        {
+          "name": "reserved_quantity",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Inventory quantity reserved for confirmed customer orders and unavailable for new allocations. Used for inventory allocation analysis, available-to-promise calculations, order fulfillment monitoring, and demand planning."
+        },
+        {
+          "name": "reorder_level",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Minimum inventory threshold that triggers replenishment activity. Used for inventory optimization, safety stock monitoring, replenishment planning, stockout prevention, and supply planning processes."
+        },
+        {
+          "name": "unit_cost",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Cost per unit of the product in inventory."
+        },
+        {
+          "name": "inventory_status",
+          "data_type": "VARCHAR(50)",
+          "description": "Current inventory status such as In Stock, Low Stock, Out of Stock, or Expired."
+        },
+        {
+          "name": "batch_number",
+          "data_type": "VARCHAR(100)",
+          "description": "Batch or lot number associated with the inventory item."
+        },
+        {
+          "name": "expiry_date",
+          "data_type": "DATE",
+          "description": "Expiration date associated with the inventory batch or lot. Used for inventory aging analysis, shelf-life monitoring, product quality compliance, waste reduction initiatives, and expiry risk reporting."
+        },
+        {
+          "name": "last_stock_update",
+          "data_type": "TIMESTAMP",
+          "description": "Timestamp when inventory quantity was last updated."
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP",
+          "description": "Timestamp when the inventory record was created."
+        }
+      ]
+    },
+    {
+      "table_name": "shipment",
+      "primary_key": "shipment_id",
+      "columns": [
+        {
+          "name": "shipment_id",
+          "data_type": "INT",
+          "description": "Unique identifier for each shipment."
+        },
+        {
+          "name": "order_id",
+          "data_type": "INT",
+          "description": "Reference identifier for the associated sales or purchase order."
+        },
+        {
+          "name": "shipment_type",
+          "data_type": "VARCHAR(50)",
+          "description": "Type of shipment such as Inbound, Outbound, or Return."
+        },
+        {
+          "name": "shipment_status",
+          "data_type": "VARCHAR(50)",
+          "description": "Current status of the shipment such as Pending, In Transit, Delivered, Delayed, Returned, or Cancelled. Used for logistics performance reporting, shipment tracking, delivery monitoring, exception management, and customer service analysis."
+        },
+        {
+          "name": "carrier_name",
+          "data_type": "VARCHAR(100)",
+          "description": "Name of the logistics carrier responsible for shipment delivery."
+        },
+        {
+          "name": "tracking_number",
+          "data_type": "VARCHAR(100)",
+          "description": "Tracking number provided by the carrier for shipment monitoring."
+        },
+        {
+          "name": "source_location",
+          "data_type": "VARCHAR(100)",
+          "description": "Origin location from which the shipment was dispatched."
+        },
+        {
+          "name": "destination_location",
+          "data_type": "VARCHAR(100)",
+          "description": "Final destination location for the shipment."
+        },
+        {
+          "name": "dispatch_date",
+          "data_type": "DATE",
+          "description": "Date when the shipment departed from the origin location. Used for logistics reporting, transportation lead time analysis, shipment performance monitoring, and delivery tracking."
+        },
+        {
+          "name": "expected_delivery_date",
+          "data_type": "DATE",
+          "description": "Promised or planned delivery date communicated to the customer or receiving location. Used for on-time delivery analysis, logistics planning, customer service reporting, and shipment performance evaluation."
+        },
+        {
+          "name": "actual_delivery_date",
+          "data_type": "DATE",
+          "description": "Actual date when the shipment was successfully delivered. Used for on-time delivery KPI calculations, logistics efficiency reporting, transportation performance analysis, and customer satisfaction monitoring."
+        },
+        {
+          "name": "freight_cost",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Transportation and logistics cost associated with the shipment. Used for logistics cost analysis, profitability analysis, carrier performance evaluation, transportation budgeting, and cost-to-serve calculations."
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP",
+          "description": "Timestamp when the shipment record was created."
+        }
+      ]
+    },
+    {
+      "table_name": "purchase",
+      "primary_key": "purchase_id",
+      "columns": [
+        {
+          "name": "purchase_id",
+          "data_type": "INT",
+          "description": "Unique identifier for each purchase transaction."
+        },
+        {
+          "name": "supplier_id",
+          "data_type": "INT",
+          "description": "Unique identifier of the supplier providing the product."
+        },
+        {
+          "name": "product_id",
+          "data_type": "INT",
+          "description": "Unique identifier of the purchased product."
+        },
+        {
+          "name": "purchase_order_number",
+          "data_type": "VARCHAR(100)",
+          "description": "Business purchase order number used to track procurement transactions."
+        },
+        {
+          "name": "purchase_date",
+          "data_type": "DATE",
+          "description": "Date when the purchase order was created or issued to the supplier. Primary time dimension for procurement analysis. Used for procurement reporting, supplier performance analysis, purchasing trend analysis, lead time calculations, inventory replenishment planning, and spend management reporting."
+        },
+        {
+          "name": "ordered_quantity",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Quantity of product requested from the supplier. Used for procurement volume reporting, supplier demand analysis, inventory replenishment planning, demand forecasting, and purchasing trend analysis."
+        },
+        {
+          "name": "received_quantity",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Quantity of product actually received from the supplier. Used for supplier fulfillment analysis, purchase receipt accuracy calculations, inventory replenishment monitoring, and supplier performance reporting."
+        },
+        {
+          "name": "unit_price",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Purchase price per unit of the product."
+        },
+        {
+          "name": "total_amount",
+          "data_type": "DECIMAL(12,2)",
+          "description": "Total monetary value of the purchase transaction. Used for procurement spend analysis, supplier spend reporting, purchasing trend analysis, budgeting, cost control initiatives, and supplier performance evaluation."
+        },
+        {
+          "name": "payment_status",
+          "data_type": "VARCHAR(50)",
+          "description": "Payment status such as Paid, Unpaid, Partially Paid, or Overdue."
+        },
+        {
+          "name": "delivery_status",
+          "data_type": "VARCHAR(50)",
+          "description": "Delivery status such as Pending, Partial, Complete, or Delayed."
+        },
+        {
+          "name": "expected_receipt_date",
+          "data_type": "DATE",
+          "description": "Expected date when ordered goods should be received."
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP",
+          "description": "Timestamp when the purchase record was created."
+        }
+      ]
+    },
+    {
+      "table_name": "sales",
+      "primary_key": "sales_id",
+      "columns": [
+        {
+          "name": "sales_id",
+          "data_type": "INT",
+          "description": "Unique identifier for each sales transaction."
+        },
+        {
+          "name": "customer_id",
+          "data_type": "INT",
+          "description": "Unique identifier of the customer who placed the order."
+        },
+        {
+          "name": "product_id",
+          "data_type": "INT",
+          "description": "Unique identifier of the product sold."
+        },
+        {
+          "name": "sales_order_number",
+          "data_type": "VARCHAR(100)",
+          "description": "Business sales order number used to track customer orders."
+        },
+        {
+          "name": "sales_date",
+          "data_type": "DATE",
+          "description": "Date when the sales transaction occurred. Used for daily, weekly, monthly, quarterly, and yearly sales reporting, revenue trend analysis, period-over-period comparisons, time-based aggregations, sales forecasting, and filtering transactions for specific reporting periods."
+        },
+        {
+          "name": "quantity_sold",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Quantity of product sold in the transaction. Used for sales volume reporting, demand forecasting, product performance analysis, inventory planning, inventory turnover calculations, market demand analysis, and sales trend reporting across time periods and regions."
+        },
+        {
+          "name": "unit_price",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Selling price per unit of the product."
+        },
+        {
+          "name": "discount_amount",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Total discount applied to the sales transaction."
+        },
+        {
+          "name": "tax_amount",
+          "data_type": "DECIMAL(10,2)",
+          "description": "Tax amount charged on the sales transaction."
+        },
+        {
+          "name": "total_sales_amount",
+          "data_type": "DECIMAL(12,2)",
+          "description": "Final sales revenue amount after discounts and taxes. Primary measure used for revenue reporting, sales performance analysis, customer revenue contribution analysis, product sales analysis, regional revenue reporting, profitability analysis, sales forecasting, executive dashboards, and financial KPI calculations."
+
+        },
+        {
+          "name": "sales_channel",
+          "data_type": "VARCHAR(50)",
+          "description": "Channel through which the sale was completed, such as Online, Retail, Distributor, or Direct Sales. Used for channel performance reporting, revenue attribution, customer purchasing behavior analysis, sales mix analysis, profitability comparisons, and channel strategy evaluation."
+        },
+        {
+          "name": "payment_method",
+          "data_type": "VARCHAR(50)",
+          "description": "Method used by the customer to make payment."
+        },
+        {
+          "name": "order_status",
+          "data_type": "VARCHAR(50)",
+          "description": "Current lifecycle status of the sales order such as Open, Completed, Cancelled, Returned, or Pending. Used for order fulfillment reporting, cancellation analysis, return analysis, operational performance monitoring, and sales pipeline tracking."
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP",
+          "description": "Timestamp when the sales record was created."
+        }
+      ]
+    },
+    {
+      "table_name": "customer",
+      "primary_key": "customer_id",
+      "columns": [
+        {
+          "name": "customer_id",
+          "data_type": "INT",
+          "description": "Unique identifier for each customer."
+        },
+        {
+          "name": "customer_name",
+          "data_type": "VARCHAR(150)",
+          "description": "Full name or business name of the customer."
+        },
+        {
+          "name": "customer_type",
+          "data_type": "VARCHAR(50)",
+          "description": "Business classification of the customer such as Retail, Wholesale, Corporate, Distributor, or Strategic Account. Used for customer segmentation, revenue analysis by customer segment, profitability analysis, pricing strategy evaluation, and market performance reporting."
+        },
+        {
+          "name": "email",
+          "data_type": "VARCHAR(150)",
+          "description": "Primary email address of the customer."
+        },
+        {
+          "name": "phone_number",
+          "data_type": "VARCHAR(50)",
+          "description": "Primary contact phone number of the customer."
+        },
+        {
+          "name": "address_line1",
+          "data_type": "VARCHAR(255)",
+          "description": "Primary street address of the customer."
+        },
+        {
+          "name": "city",
+          "data_type": "VARCHAR(100)",
+          "description": "Customer city used for city-level sales analysis, customer segmentation, demand forecasting, and geographical performance reporting."
+        },
+        {
+          "name": "state",
+          "data_type": "VARCHAR(100)",
+          "description": "Customer state or province. Primary geographic dimension used for regional sales reporting, territory performance analysis, market penetration analysis, customer segmentation, geographic demand forecasting, regional profitability analysis, and location-based revenue reporting."
+        },
+        {
+          "name": "country",
+          "data_type": "VARCHAR(100)",
+          "description": "Customer country used for country-level sales reporting, international business analysis, market expansion analysis, and global revenue performance tracking."
+        },
+        {
+          "name": "postal_code",
+          "data_type": "VARCHAR(20)",
+          "description": "Customer postal or ZIP code used for localized sales analysis, delivery coverage analysis, logistics planning, and geographic demand distribution reporting."
+        },
+        {
+          "name": "registration_date",
+          "data_type": "DATE",
+          "description": "Date when the customer account was created or registered. Used for customer acquisition reporting, cohort analysis, retention analysis, customer growth tracking, and new customer trend analysis."
+        },
+        {
+          "name": "loyalty_points",
+          "data_type": "INT",
+          "description": "Accumulated loyalty or reward points earned by the customer."
+        },
+        {
+          "name": "customer_status",
+          "data_type": "VARCHAR(50)",
+          "description": "Current customer status such as Active, Inactive, Suspended, or Prospect."
+        },
+        {
+          "name": "created_at",
+          "data_type": "TIMESTAMP",
+          "description": "Timestamp when the customer record was created."
+        }
+      ]
+    }
+  ]
+}

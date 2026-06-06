@@ -1,0 +1,45 @@
+
+{
+  "business_terms": [
+    {
+      "term": "Stock Quantity",
+      "definition": "Current available inventory quantity in warehouse."
+    },
+    {
+      "term": "Reserved Quantity",
+      "definition": "Inventory quantity reserved for existing customer orders."
+    },
+    {
+      "term": "Reorder Level",
+      "definition": "Minimum stock threshold that triggers replenishment.when inventory falls below this level."
+    },
+    {
+      "term": "Shipment Status",
+      "definition": "Current status of shipment such as In Transit or Delivered."
+    },
+    {
+      "term": "Purchase Order",
+      "definition": "Formal request issued to supplier for purchasing materials."
+    },
+    {
+      "term": "Sales Order",
+      "definition": "Customer order representing product sales transaction."
+    },
+    {
+      "term": "Customer Type",
+      "definition": "Category of customer such as Retail or Wholesale."
+    },
+    {
+      "term": "Freight Cost",
+      "definition": "Transportation cost associated with shipment movement."
+    },
+    {
+      "term": "Delivery Status",
+      "definition": "Status indicating whether purchase delivery is completed."
+    },
+    {
+      "term": "Loyalty Points",
+      "definition": "Reward points accumulated by customers through purchases."
+    }
+  ]
+}

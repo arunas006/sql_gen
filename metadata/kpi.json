@@ -1,0 +1,45 @@
+
+{
+  "kpis": [
+    {
+      "kpi_name": "Inventory Turnover",
+      "formula": "Total Sales Quantity / Average Stock Quantity",
+      "description": "Measures how efficiently inventory is utilized."
+    },
+    {
+      "kpi_name": "Order Fulfillment Rate",
+      "formula": "(Delivered Orders / Total Orders) * 100",
+      "description": "Percentage of orders successfully delivered."
+    },
+    {
+      "kpi_name": "On-Time Delivery %",
+      "formula": "(On-Time Deliveries / Total Deliveries) * 100",
+      "description": "Measures the percentage of shipments delivered on or before the promised delivery date or expected delivery window."
+    },
+    {
+      "kpi_name": "Purchase Receipt Accuracy",
+      "formula": "(Received Quantity / Ordered Quantity) * 100",
+      "description": "Measures supplier fulfillment accuracy."
+    },
+    {
+      "kpi_name": "Average Sales Value",
+      "formula": "Total Sales Amount / Total Number of Orders",
+      "description": "Average revenue generated per sales order."
+    },
+    {
+      "kpi_name": "Customer Retention Rate",
+      "formula": "(Returning Customers / Total Customers) * 100",
+      "description": "Measures customer repeat purchase behavior."
+    },
+    {
+      "kpi_name": "Inventory Carrying Cost",
+      "formula": "Average Inventory * Carrying Cost Percentage",
+      "description": "Cost incurred for holding inventory."
+    },
+    {
+      "kpi_name": "Freight Cost per Shipment",
+      "formula": "Total Freight Cost / Total Shipments",
+      "description": "Average transportation cost per shipment."
+    }
+  ]
+}

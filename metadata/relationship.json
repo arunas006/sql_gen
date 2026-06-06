@@ -1,0 +1,33 @@
+
+{
+  "relationships": [
+    {
+      "source_table": "sales",
+      "source_column": "customer_id",
+      "target_table": "customer",
+      "target_column": "customer_id",
+      "relationship_type": "many-to-one"
+    },
+    {
+      "source_table": "sales",
+      "source_column": "product_id",
+      "target_table": "inventory",
+      "target_column": "product_id",
+      "relationship_type": "many-to-one"
+    },
+    {
+      "source_table": "purchase",
+      "source_column": "product_id",
+      "target_table": "inventory",
+      "target_column": "product_id",
+      "relationship_type": "many-to-one"
+    },
+    {
+      "source_table": "shipment",
+      "source_column": "order_id",
+      "target_table": "sales",
+      "target_column": "sales_id",
+      "relationship_type": "many-to-one"
+    }
+  ]
+}
