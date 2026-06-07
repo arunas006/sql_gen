@@ -27,8 +27,9 @@ class QueryAnalyzerService:
             messages=[{"role": "system", "content": prompt}]
         )
 
-        analysis_result = response
-        return analysis_result.choices[0].message.content
+        analysis_result = response.choices[0].message.content
+        analysis = QueryAnalyzer(**json.loads(analysis_result))
+        return analysis
     
 if __name__ == "__main__":
     from dotenv import load_dotenv
@@ -54,7 +55,7 @@ if __name__ == "__main__":
 
     query_analyzer_service = QueryAnalyzerService(openai_client, context_info=context_info)  # You would need to initialize ContextInfo with actual implementations
     
-    user_input = "What is the total sales for the last quarter by region?"
+    user_input = "What is the sales figures for the last quarter by region?"
     analysis_result = query_analyzer_service.analyze_query(user_input)
     
     print(analysis_result)

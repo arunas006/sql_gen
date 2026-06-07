@@ -52,7 +52,8 @@ class RelationshipGraph:
                 []
             )
         ])
-        visited = set(source)
+        visited = set()
+        visited.add(source)
         while queue:
             current, table_path, relationship_path = queue.popleft()
             if current == target:
