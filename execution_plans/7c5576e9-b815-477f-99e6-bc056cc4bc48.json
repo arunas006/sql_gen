@@ -1,0 +1,257 @@
+{
+  "plans": [
+    {
+      "question": "What was the total sales amount and quantity sold in the last quarter compared to previous quarters?",
+      "execution_plan": {
+        "intent": "Compare total sales amount and quantity sold in the last quarter versus previous quarters",
+        "analysis_type": "comparison",
+        "fact_table": "sales",
+        "dimensions": [
+          {
+            "table": "sales",
+            "column": "sales_date"
+          }
+        ],
+        "measures": [
+          {
+            "table": "sales",
+            "column": "total_sales_amount",
+            "aggregation": "SUM",
+            "alias": "total_sales_amount",
+            "distinct": false,
+            "business_definition": "Final sales revenue amount after discounts and taxes."
+          },
+          {
+            "table": "sales",
+            "column": "quantity_sold",
+            "aggregation": "SUM",
+            "alias": "quantity_sold",
+            "distinct": false,
+            "business_definition": "Quantity of product sold in the transaction."
+          }
+        ],
+        "filters": [
+          {
+            "table": "sales",
+            "column": "sales_date",
+            "operator": "BETWEEN",
+            "value": "last quarter and previous quarters"
+          }
+        ],
+        "joins": [],
+        "granularity": "QUARTERLY",
+        "comparison_period": "PREVIOUS_QUARTER",
+        "comparison_metric": "BOTH",
+        "time_context": {
+          "current_period": "LAST_COMPLETED_QUARTER",
+          "comparison_period": "PREVIOUS_QUARTER"
+        },
+        "derived_metrics": [
+          {
+            "name": "absolute_change_total_sales_amount",
+            "formula_type": "ABSOLUTE_CHANGE",
+            "column": "total_sales_amount"
+          },
+          {
+            "name": "percent_change_total_sales_amount",
+            "formula_type": "PERCENT_CHANGE",
+            "column": "total_sales_amount"
+          },
+          {
+            "name": "absolute_change_quantity_sold",
+            "formula_type": "ABSOLUTE_CHANGE",
+            "column": "quantity_sold"
+          },
+          {
+            "name": "percent_change_quantity_sold",
+            "formula_type": "PERCENT_CHANGE",
+            "column": "quantity_sold"
+          }
+        ],
+        "output_columns": [
+          "period",
+          "total_sales_amount",
+          "quantity_sold",
+          "previous_total_sales_amount",
+          "previous_quantity_sold",
+          "absolute_change_total_sales_amount",
+          "percent_change_total_sales_amount",
+          "absolute_change_quantity_sold",
+          "percent_change_quantity_sold"
+        ],
+        "order_by": [],
+        "limit": null,
+        "sql_pattern": null
+      }
+    },
+    {
+      "question": "Did the number of active customers, new customers, or repeat customers decrease in the last quarter?",
+      "execution_plan": {
+        "intent": "Determine if the number of active, new, or repeat customers decreased in the last quarter",
+        "analysis_type": "comparison",
+        "fact_table": "sales",
+        "dimensions": [],
+        "measures": [
+          {
+            "table": "customer",
+            "column": "customer_id",
+            "aggregation": "COUNT_DISTINCT",
+            "alias": "active_customers",
+            "distinct": true,
+            "business_definition": "Customers with customer_status = 'Active' who placed at least one order in the period"
+          },
+          {
+            "table": "customer",
+            "column": "customer_id",
+            "aggregation": "COUNT_DISTINCT",
+            "alias": "new_customers",
+            "distinct": true,
+            "business_definition": "Customers whose first sales_date (first order) occurred during the period"
+          },
+          {
+            "table": "customer",
+            "column": "customer_id",
+            "aggregation": "COUNT_DISTINCT",
+            "alias": "repeat_customers",
+            "distinct": true,
+            "business_definition": "Customers with more than one order including at least one order before the period and at least one order during the period"
+          }
+        ],
+        "filters": [
+          {
+            "table": "sales",
+            "column": "sales_date",
+            "operator": "BETWEEN",
+            "value": "last_quarter"
+          }
+        ],
+        "joins": [
+          {
+            "left_table": "sales",
+            "left_column": "customer_id",
+            "right_table": "customer",
+            "right_column": "customer_id"
+          }
+        ],
+        "granularity": "QUARTERLY",
+        "comparison_period": "PREVIOUS_QUARTER",
+        "comparison_metric": "BOTH",
+        "time_context": {
+          "current_period": "LAST_COMPLETED_QUARTER",
+          "comparison_period": "PREVIOUS_QUARTER"
+        },
+        "derived_metrics": [
+          {
+            "name": "active_customers_change",
+            "formula_type": "PERCENT_CHANGE",
+            "column": "active_customers"
+          },
+          {
+            "name": "new_customers_change",
+            "formula_type": "PERCENT_CHANGE",
+            "column": "new_customers"
+          },
+          {
+            "name": "repeat_customers_change",
+            "formula_type": "PERCENT_CHANGE",
+            "column": "repeat_customers"
+          }
+        ],
+        "output_columns": [
+          "metric_name",
+          "current_value",
+          "previous_value",
+          "absolute_change",
+          "percent_change"
+        ],
+        "order_by": [],
+        "limit": null,
+        "sql_pattern": null
+      }
+    },
+    {
+      "question": "Which products experienced a decline in sales volume or revenue in the last quarter?",
+      "execution_plan": {
+        "intent": "Identify products with decline in sales volume or sales revenue",
+        "analysis_type": "comparison",
+        "fact_table": "sales",
+        "dimensions": [
+          {
+            "table": "sales",
+            "column": "product_id"
+          }
+        ],
+        "measures": [
+          {
+            "table": "sales",
+            "column": "quantity_sold",
+            "aggregation": "SUM",
+            "alias": "sales_volume",
+            "distinct": false,
+            "business_definition": "Total quantity of product sold during the period"
+          },
+          {
+            "table": "sales",
+            "column": "total_sales_amount",
+            "aggregation": "SUM",
+            "alias": "sales_revenue",
+            "distinct": false,
+            "business_definition": "Total sales revenue amount after discounts and taxes during the period"
+          }
+        ],
+        "filters": [
+          {
+            "table": "sales",
+            "column": "sales_date",
+            "operator": "BETWEEN",
+            "value": "LAST_COMPLETED_QUARTER"
+          }
+        ],
+        "joins": [],
+        "granularity": "QUARTERLY",
+        "comparison_period": "PREVIOUS_QUARTER",
+        "comparison_metric": "BOTH",
+        "time_context": {
+          "current_period": "LAST_COMPLETED_QUARTER",
+          "comparison_period": "PREVIOUS_QUARTER"
+        },
+        "derived_metrics": [
+          {
+            "name": "sales_volume_absolute_change",
+            "formula_type": "ABSOLUTE_CHANGE",
+            "column": "quantity_sold"
+          },
+          {
+            "name": "sales_volume_percent_change",
+            "formula_type": "PERCENT_CHANGE",
+            "column": "quantity_sold"
+          },
+          {
+            "name": "sales_revenue_absolute_change",
+            "formula_type": "ABSOLUTE_CHANGE",
+            "column": "total_sales_amount"
+          },
+          {
+            "name": "sales_revenue_percent_change",
+            "formula_type": "PERCENT_CHANGE",
+            "column": "total_sales_amount"
+          }
+        ],
+        "output_columns": [
+          "product_id",
+          "current_sales_volume",
+          "previous_sales_volume",
+          "sales_volume_absolute_change",
+          "sales_volume_percent_change",
+          "current_sales_revenue",
+          "previous_sales_revenue",
+          "sales_revenue_absolute_change",
+          "sales_revenue_percent_change"
+        ],
+        "order_by": [],
+        "limit": null,
+        "sql_pattern": null
+      }
+    }
+  ]
+}

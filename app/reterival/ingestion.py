@@ -16,7 +16,9 @@ class IngestionPipeline:
         schema_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/schema.json",
         # relationships_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/relationship.json",
         glossary_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/glossary.json",
-        kpi_definitions_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/kpi.json"
+        kpi_definitions_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/kpi.json",
+        business_catalog_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/business_catalog.json"
+
     )
     print("MetadataBuilder initialized.")
     docs = metadata_builder.build_all_metadata_documents()

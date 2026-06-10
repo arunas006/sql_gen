@@ -7,29 +7,32 @@ from app.prompt.query_analyzer_prompt import QUERY_ANALYZER_PROMPT
 
 class QueryAnalyzerService:
 
-    def __init__(self, openai_client: OpenAI, context_info: ContextInfo):
+    def __init__(self, openai_client: OpenAI, context_info: ContextInfo,user_input: str,):
         self.openai_client = openai_client
         self.context_info = context_info
+        self.user_input = user_input
 
-    def analyze_query(self, user_input: str) -> QueryAnalyzer:
+    def analyze_query(self) -> QueryAnalyzer:
 
-        context = self.context_info.build_context(user_input)
+        context = self.context_info.build_context()
+        
 
         context_json = json.dumps(context.model_dump(),indent=2)
     
         prompt = QUERY_ANALYZER_PROMPT.format(
             reterival_context=context_json,
-            user_query=user_input
+            user_query=self.user_input
         )
 
-        response = self.openai_client.chat.completions.create(
+        response = self.openai_client.beta.chat.completions.parse(
             model="gpt-4.1-mini",
-            messages=[{"role": "system", "content": prompt}]
+            messages=[{"role": "system", "content": prompt}],
+            response_format=QueryAnalyzer
         )
 
-        analysis_result = response.choices[0].message.content
-        analysis = QueryAnalyzer(**json.loads(analysis_result))
-        return analysis
+        analysis_result: QueryAnalyzer = response.choices[0].message.parsed
+        # analysis = QueryAnalyzer(**json.loads(analysis_result))
+        return analysis_result
     
 if __name__ == "__main__":
     from dotenv import load_dotenv

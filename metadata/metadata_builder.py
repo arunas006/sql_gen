@@ -6,11 +6,12 @@ from app.planner.models import MetadataDocument
 
 class MetadataBuilder:
     
-    def __init__(self, schema_path: str, glossary_path: str, kpi_definitions_path: str):
+    def __init__(self, schema_path: str, glossary_path: str, kpi_definitions_path: str,business_catalog_path:str):
         self.schema_path = schema_path
         # self.relationships_path = relationships_path
         self.glossary_path = glossary_path
         self.kpi_definitions_path = kpi_definitions_path
+        self.business_catalog_path = business_catalog_path
 
     def _load_json(self, path: str):
         with open(path ,"r",encoding="utf-8") as f:
@@ -161,6 +162,41 @@ class MetadataBuilder:
 
         return docs
     
+    def _build_business_catalog_documents(self, business_catalog: Dict):
+        docs = []
+
+        for item in business_catalog.get("domains", []):
+            domain_name = item.get("domain_name", "")
+            domain_type = item.get("domain_type", "")
+            description = item.get("description", [])
+            metrics = item.get("metrics", [])
+            
+
+            content = (
+                f"Domain Name: {domain_name}\n"
+                f"Domain Type: {domain_type}\n"
+                f"Description: {description}\n"
+                f"Metrics: {', '.join(metrics)}"
+            )
+
+            docs.append(
+                MetadataDocument(
+                    id=f"business_catalog_{domain_name.lower().replace(' ', '_')}",
+                    object_type="business_catalog",
+                    name=domain_name,
+                    content=content,
+                    metadata={
+                        "domain_name": domain_name,
+                        "domain_type": domain_type,
+                        "source_tables": item.get("source_tables", []),
+                        "driver_domains": item.get("driver_domains", []),
+                        "metrics": metrics
+                    }
+                )
+            )
+
+        return docs
+
     def build_all_metadata_documents(self) -> List[MetadataDocument]:
 
         documents = []
@@ -169,17 +205,21 @@ class MetadataBuilder:
         # relationships = self._load_json(self.relationships_path)
         glossary = self._load_json(self.glossary_path)
         kpi_definitions = self._load_json(self.kpi_definitions_path)
+        business_catalog = self._load_json(self.business_catalog_path)
 
         table_docs = self._build_table_documents(schema)
         # relationship_docs = self._build_relationship_documents(relationships)
         glossary_docs = self._build_glossary_documents(glossary)
         kpi_docs = self._build_kpi_documents(kpi_definitions)
+        business_catalog_docs = self._build_business_catalog_documents(business_catalog)
         col_docs = self._build_column_documents(schema)
+
 
         documents.extend(table_docs)
         # documents.extend(relationship_docs)
         documents.extend(glossary_docs)
         documents.extend(kpi_docs)
+        documents.extend(business_catalog_docs)
         documents.extend(col_docs)
         return documents
 
@@ -188,20 +228,23 @@ if __name__ == "__main__":
         schema_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/schema.json",
         # relationships_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/relationship.json",
         glossary_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/glossary.json",
-        kpi_definitions_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/kpi.json"
+        kpi_definitions_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/kpi.json",
+        business_catalog_path="/Users/arun/Documents/LLM_work/sql_gen/metadata/business_catalog.json"
     )
 
     schema = metadata_builder._load_json(metadata_builder.schema_path)
     # relationships = metadata_builder._load_json(metadata_builder.relationships_path)
     glossary = metadata_builder._load_json(metadata_builder.glossary_path)
     kpi_definitions = metadata_builder._load_json(metadata_builder.kpi_definitions_path)
+    business_catalog = metadata_builder._load_json(metadata_builder.business_catalog_path)
 
     # table_docs = metadata_builder._build_table_documents(schema)
     # relationship_docs = metadata_builder._build_relationship_documents(relationships)
     # glossary_docs = metadata_builder._build_glossary_documents(glossary)
     # kpi_docs = metadata_builder._build_kpi_documents(kpi_definitions)
-    col_docs = metadata_builder._build_column_documents(schema)
+    business_catalog_docs = metadata_builder._build_business_catalog_documents(business_catalog)
+    # col_docs = metadata_builder._build_column_documents(schema)
     # docs = metadata_builder.build_all_metadata_documents()
-    print(col_docs)
+    print(business_catalog_docs)
   
 

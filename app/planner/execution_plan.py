@@ -1,5 +1,5 @@
 import uuid
-
+import json
 from app.planner.models import JoinCondition,ExecutionPlan,QueryAnalyzer
 import os
 
@@ -22,6 +22,11 @@ class ExecutionPlanService:
             filters=query_analysis.filters,
             joins=join_conditions,
             granularity=query_analysis.granularity,
+            comparison_period=query_analysis.comparison_period,
+            comparison_metric=query_analysis.comparison_metric,
+            time_context=query_analysis.time_context,
+            derived_metrics=query_analysis.derived_metrics,
+            output_columns=query_analysis.output_columns,
             order_by=query_analysis.order_by,
             limit=query_analysis.limit
         )

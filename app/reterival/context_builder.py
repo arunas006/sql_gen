@@ -6,21 +6,22 @@ from app.reterival.metadata_retriever import MetadataRetriever
 
 class ContextInfo:
 
-    def __init__(self, metadata_retriever: MetadataRetriever, relationship_graph: RelationshipGraph):
-        self.metadata_retriever = metadata_retriever
+    def __init__(self,  relationship_graph: RelationshipGraph,reterival_context):
+        # self.metadata_retriever = metadata_retriever
         self.relationship_graph = relationship_graph
+        self.reterival_context = reterival_context
 
 
-    def build_context(self,question:str) -> ContextBuilder:
+    def build_context(self) -> ContextBuilder:
 
-        reterival_context = self.metadata_retriever.retrieve(question)
-        table_name  = [table.name for table in reterival_context.tables]
+        # reterival_context = self.metadata_retriever.retrieve(question)
+        table_name  = [table.name for table in self.reterival_context.tables]
         relationship = self.relationship_graph.get_relationship(table_name)
         return ContextBuilder(
-            tables=reterival_context.tables,
-            columns=reterival_context.columns,
-            kpis=reterival_context.kpis,
-            glossary=reterival_context.glossary,
+            tables=self.reterival_context.tables,
+            columns=self.reterival_context.columns,
+            kpis=self.reterival_context.kpis,
+            glossary=self.reterival_context.glossary,
             relationship=relationship
         )
 

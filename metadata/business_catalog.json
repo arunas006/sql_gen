@@ -1,0 +1,233 @@
+{
+"domains": [
+{
+"domain_name": "Sales Performance",
+"domain_type": "KPI_DOMAIN",
+"description": "Represents the overall commercial performance of the business measured through revenue generation, sales volume, order activity, and growth trends. This domain evaluates how effectively products are sold across customers, regions, channels, and time periods. Changes in sales performance are often influenced by customer demand, inventory availability, product demand, channel effectiveness, market conditions, and operational execution.",
+"metrics": [
+"total_sales_amount",
+"quantity_sold",
+"average_order_value"
+],
+"source_tables": ["sales"],
+"driver_domains": [
+"Customer Demand",
+"Product Demand",
+"Inventory Availability",
+"Channel Performance",
+"Regional Performance",
+"Revenue Leakage",
+"Demand Supply Balance"
+]
+},
+
+{
+  "domain_name": "Customer Demand",
+  "domain_type": "DRIVER_DOMAIN",
+  "description": "Represents customer purchasing behavior and market demand for products and services. This domain evaluates customer acquisition, retention, repeat purchasing activity, buying frequency, and revenue contribution. Declining customer demand may indicate reduced market interest, customer churn, competitive pressure, pricing issues, or changing purchasing behavior that directly impacts sales performance.",
+  "metrics": [
+    "active_customers",
+    "new_customers",
+    "repeat_customers",
+    "revenue_per_customer"
+  ],
+  "source_tables": [
+    "sales",
+    "customer"
+  ],
+  "driver_domains": [
+    "Customer Segmentation",
+    "Regional Performance",
+    "Channel Performance"
+  ]
+},
+
+{
+  "domain_name": "Product Demand",
+  "domain_type": "DRIVER_DOMAIN",
+  "description": "Represents market demand and customer interest for individual products. This domain evaluates product sales volume, revenue contribution, product adoption trends, and product performance over time. Weak product demand may indicate changing customer preferences, product lifecycle decline, competitive substitution, pricing concerns, or inventory availability issues.",
+  "metrics": [
+    "product_revenue",
+    "product_sales_volume",
+    "product_growth"
+  ],
+  "source_tables": ["sales"],
+  "driver_domains": [
+    "Inventory Availability",
+    "Channel Performance"
+  ]
+},
+
+{
+  "domain_name": "Inventory Availability",
+  "domain_type": "DRIVER_DOMAIN",
+  "description": "Represents the organization's ability to maintain sufficient inventory levels to fulfill customer demand. This domain evaluates stock availability, inventory health, replenishment readiness, and inventory sufficiency across products and locations. Insufficient inventory availability can lead to stockouts, lost sales opportunities, delayed order fulfillment, customer dissatisfaction, and revenue decline.",
+  "metrics": [
+    "stock_quantity",
+    "inventory_status",
+    "reorder_level"
+  ],
+  "source_tables": ["inventory"],
+  "driver_domains": [
+    "Supplier Fulfillment",
+    "Procurement Performance",
+    "Inventory Risk"
+  ]
+},
+
+{
+  "domain_name": "Revenue Leakage",
+  "domain_type": "DRIVER_DOMAIN",
+  "description": "Represents potential loss of revenue due to operational inefficiencies, excessive discounting, order cancellations, fulfillment failures, returns, or incomplete order execution. This domain helps identify situations where customer demand exists but revenue is not fully realized because of process breakdowns or commercial decisions.",
+  "metrics": [
+    "discount_amount",
+    "cancelled_sales",
+    "lost_revenue"
+  ],
+  "source_tables": ["sales"],
+  "driver_domains": [
+    "Order Fulfillment"
+  ]
+},
+
+{
+  "domain_name": "Channel Performance",
+  "domain_type": "DRIVER_DOMAIN",
+  "description": "Represents the effectiveness of sales channels such as Online, Retail, Distributor, and Direct Sales in generating revenue and fulfilling customer demand. This domain evaluates channel contribution, growth trends, customer engagement, and channel profitability. Underperforming channels can significantly impact overall sales performance and market reach.",
+  "metrics": [
+    "sales_by_channel",
+    "channel_growth",
+    "channel_contribution"
+  ],
+  "source_tables": ["sales"],
+  "driver_domains": []
+},
+
+{
+  "domain_name": "Regional Performance",
+  "domain_type": "DRIVER_DOMAIN",
+  "description": "Represents commercial performance across geographic markets including states, cities, territories, and countries. This domain evaluates revenue contribution, customer concentration, market penetration, and regional growth trends. Regional analysis helps identify geographic areas experiencing demand shifts, operational challenges, or market expansion opportunities.",
+  "metrics": [
+    "sales_by_state",
+    "sales_by_country",
+    "customer_distribution"
+  ],
+  "source_tables": [
+    "sales",
+    "customer"
+  ],
+  "driver_domains": []
+},
+
+{
+  "domain_name": "Demand Supply Balance",
+  "domain_type": "DRIVER_DOMAIN",
+  "description": "Represents the alignment between customer demand, available inventory, and replenishment capability. This domain evaluates whether the organization is effectively matching supply with market demand. Imbalances may result in stockouts, excess inventory, missed revenue opportunities, increased carrying costs, or reduced customer service levels.",
+  "metrics": [
+    "inventory_coverage",
+    "sales_inventory_ratio",
+    "replenishment_effectiveness"
+  ],
+  "source_tables": [
+    "sales",
+    "inventory",
+    "purchase"
+  ],
+  "driver_domains": [
+    "Customer Demand",
+    "Inventory Availability",
+    "Procurement Performance"
+  ]
+},
+
+{
+  "domain_name": "Customer Segmentation",
+  "domain_type": "OPERATIONAL_DOMAIN",
+  "description": "Represents the analysis of customer groups based on customer type, purchasing behavior, geography, and commercial value. This domain helps identify which customer segments drive growth, which segments are declining, and how different customer groups contribute to overall business performance.",
+  "metrics": [
+    "revenue_by_customer_type",
+    "customer_type_growth"
+  ],
+  "source_tables": [
+    "customer",
+    "sales"
+  ],
+  "driver_domains": []
+},
+
+{
+  "domain_name": "Inventory Risk",
+  "domain_type": "OPERATIONAL_DOMAIN",
+  "description": "Represents potential risks associated with inventory management including stockouts, low inventory levels, excess inventory, aging stock, and product expiration. This domain helps identify inventory conditions that may negatively impact revenue generation, customer service, working capital efficiency, and operational performance.",
+  "metrics": [
+    "out_of_stock_products",
+    "low_stock_products",
+    "expiry_risk"
+  ],
+  "source_tables": ["inventory"],
+  "driver_domains": []
+},
+
+{
+  "domain_name": "Procurement Performance",
+  "domain_type": "OPERATIONAL_DOMAIN",
+  "description": "Represents the effectiveness of purchasing and replenishment activities in supporting business operations and inventory requirements. This domain evaluates procurement volume, purchasing efficiency, replenishment timeliness, and spend management. Poor procurement performance can contribute to inventory shortages, delayed replenishment, increased costs, and service disruptions.",
+  "metrics": [
+    "purchase_spend",
+    "ordered_quantity",
+    "received_quantity"
+  ],
+  "source_tables": ["purchase"],
+  "driver_domains": [
+    "Supplier Fulfillment"
+  ]
+},
+
+{
+  "domain_name": "Supplier Fulfillment",
+  "domain_type": "OPERATIONAL_DOMAIN",
+  "description": "Represents the ability of suppliers to deliver ordered products accurately, completely, and on time. This domain evaluates supplier reliability, delivery compliance, fulfillment accuracy, and supply continuity. Weak supplier fulfillment can disrupt inventory availability, procurement efficiency, and downstream customer fulfillment processes.",
+  "metrics": [
+    "fill_rate",
+    "delivery_compliance",
+    "received_vs_ordered"
+  ],
+  "source_tables": ["purchase"],
+  "driver_domains": []
+},
+
+{
+  "domain_name": "Order Fulfillment",
+  "domain_type": "OPERATIONAL_DOMAIN",
+  "description": "Represents the organization's ability to successfully process, fulfill, and deliver customer orders from order creation through final delivery. This domain evaluates fulfillment efficiency, cancellation rates, delivery success, and service reliability. Fulfillment issues can directly impact customer satisfaction, repeat business, and revenue realization.",
+  "metrics": [
+    "fulfilled_orders",
+    "cancelled_orders",
+    "delivery_rate"
+  ],
+  "source_tables": [
+    "sales",
+    "shipment"
+  ],
+  "driver_domains": [
+    "Inventory Availability",
+    "Logistics Performance"
+  ]
+},
+
+{
+  "domain_name": "Logistics Performance",
+  "domain_type": "OPERATIONAL_DOMAIN",
+  "description": "Represents the effectiveness of transportation and delivery operations in moving products through the supply chain. This domain evaluates shipment execution, delivery timeliness, transportation costs, carrier performance, and logistics reliability. Poor logistics performance may contribute to delayed deliveries, increased operational costs, and reduced customer satisfaction.",
+  "metrics": [
+    "on_time_delivery_rate",
+    "shipment_delay_rate",
+    "freight_cost"
+  ],
+  "source_tables": ["shipment"],
+  "driver_domains": []
+}
+
+
+]
+}

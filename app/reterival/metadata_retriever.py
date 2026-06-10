@@ -70,21 +70,26 @@ class MetadataRetriever:
         columns = self._search_by_type(query_embedding, "column",top_k=8)
         kpis = self._search_by_type(query_embedding, "kpi",top_k=3)
         glossary = self._search_by_type(query_embedding, "glossary",top_k=3)
+        business_catalog = self._search_by_type(query_embedding, "business_catalog",top_k=5)
 
         return ReterivalContext(
             tables=tables,
             columns=columns,
             kpis=kpis,
-            glossary=glossary
+            glossary=glossary,
+            business_catalog=business_catalog
         )
     
 if __name__ == "__main__":
     retriever = MetadataRetriever(api_key=os.getenv("QDRANT_API_KEY"), url=os.getenv("QDRANT_URL"))
-    results = retriever.retrieve("What is the sales figures for the last quarter by region?")
+    results = retriever.retrieve("What is the reason for decline in sales in the last quarter?")
     for result in (results.tables):
         print(result)
         print("-" * 20)
     for result in (results.columns):
+        print(result)
+        print("-" * 20)
+    for result in (results.business_catalog):
         print(result)
         print("-" * 20)
     
